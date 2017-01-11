@@ -20,15 +20,26 @@ class APIManager {
         
         let task = session.dataTask(with: url!) { (data, response, error) in
             
-            DispatchQueue.main.async {
                 if error != nil {
+                    DispatchQueue.main.async {
                     completion((error?.localizedDescription)!)
+                    }
                 } else {
-                   completion("URLSession successful")
-                    print(data!)
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: AnyObject] {
+                            print(json)
+                            
+                            DispatchQueue.main.async {
+                                completion("JSON Serialization Successful")
+                            }
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            completion("Error in JSON Serialization")
+                        }
+                    }
                 }
             }
-        }
         task.resume()
     }
 }
