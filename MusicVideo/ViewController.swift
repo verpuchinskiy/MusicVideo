@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var displayLbl: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
     var videos = [Videos]()
 
@@ -22,14 +23,14 @@ class ViewController: UIViewController {
         reachabilityStatusChanged()
         
         let api = APIManager()
-        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=10/json", completion: didLoadData)
+        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=50/json", completion: didLoadData)
     }
     
     func didLoadData(videos:[Videos]) {
         
-        for item in videos {
-            print("\(item.vArtist) - \(item.vName)")
-        }
+        self.videos = videos
+        
+        tableView.reloadData()
     }
     
     
@@ -51,6 +52,22 @@ class ViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ReachStatusChanged"), object: nil)
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return videos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        let video = videos[indexPath.row]
+        
+        cell.textLabel?.text = "\(indexPath.row + 1)) \(video.vArtist)"
+        cell.detailTextLabel?.text = "\(video.vName)"
+        
+        return cell
     }
 
 }
