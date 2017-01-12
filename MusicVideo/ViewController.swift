@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var videos = [Videos]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,12 +19,11 @@ class ViewController: UIViewController {
         api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=10/json", completion: didLoadData)
     }
     
-    func didLoadData(result:String) {
+    func didLoadData(videos:[Videos]) {
         
-        let alert = UIAlertController(title: result, message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        }))
-        self.present(alert, animated: true, completion: nil)
+        for item in videos {
+            print("\(item.vArtist) - \(item.vName)")
+        }
     }
 
 }
