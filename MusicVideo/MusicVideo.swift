@@ -10,6 +10,8 @@ import Foundation
 
 class Videos {
     
+    var vRank = 0
+    
     private var _vName: String
     private var _vImageUrl: String
     private var _vVideoUrl: String

@@ -32,7 +32,7 @@ class MusicVideoTVC: UITableViewController {
     func reachabilityStatusChanged() {
         switch reachabilityStatus {
         case NOACCESS:
-            view.backgroundColor = UIColor.red
+            //view.backgroundColor = UIColor.red
             
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: "No Internet Access", message: "Please make sure you are connected to the Internet", preferredStyle: .alert)
@@ -52,7 +52,7 @@ class MusicVideoTVC: UITableViewController {
             
             
         default:
-            view.backgroundColor = UIColor.green
+            //view.backgroundColor = UIColor.green
             
             if videos.count > 0 {
                 print("do not refresh API")
@@ -65,7 +65,7 @@ class MusicVideoTVC: UITableViewController {
     
     func runAPI() {
         let api = APIManager()
-        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=50/json", completion: didLoadData)
+        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=200/json", completion: didLoadData)
     }
     
     deinit {
@@ -85,16 +85,23 @@ class MusicVideoTVC: UITableViewController {
         return videos.count
     }
 
+    
+    private struct storyboard {
+        static let cellReuseIdentifier = "cell"
+    }
+    
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.cellReuseIdentifier, for: indexPath) as! MusicVideoTableViewCell
 
-        let video = videos[indexPath.row]
+        cell.video = videos[indexPath.row]
         
-        cell.textLabel?.text = "\(indexPath.row + 1)) \(video.vArtist)"
-        cell.detailTextLabel?.text = "\(video.vName)"
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 132
     }
 
 
