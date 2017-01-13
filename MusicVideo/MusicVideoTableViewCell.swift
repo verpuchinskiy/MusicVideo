@@ -21,6 +21,10 @@ class MusicVideoTableViewCell: UITableViewCell {
     @IBOutlet weak var musicTitleLbl: UILabel!
     
     func updateCell() {
+        
+        musicTitleLbl.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        rankLbl.font = UIFont.preferredFont(forTextStyle: .body)
+        
         musicTitleLbl.text = video?.vName
         rankLbl.text = "\(video!.vRank)"
         //musicImage.image = UIImage(named: "noimage")
@@ -30,11 +34,13 @@ class MusicVideoTableViewCell: UITableViewCell {
             musicImage.image = UIImage(data: video?.vImageData! as! Data)
         } else {
             getVideoImage(video: video!, imageView: musicImage)
+            print("Get images in background thread")
         }
     }
     
     func getVideoImage(video: Videos, imageView: UIImageView) {
-        DispatchQueue.main.async {
+        
+        DispatchQueue.global(qos: .default).async {
             let data = NSData(contentsOf: URL(string: video.vImageUrl)!)
             
             var image: UIImage?
@@ -43,8 +49,12 @@ class MusicVideoTableViewCell: UITableViewCell {
                 image = UIImage(data: data! as Data)
             }
             
-            imageView.image = image
+            DispatchQueue.main.async {
+                imageView.image = image
+            }
+
         }
     }
+    }
 
-}
+
