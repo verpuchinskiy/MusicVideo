@@ -19,8 +19,6 @@ class MusicVideoTVC: UITableViewController {
         
         reachabilityStatusChanged()
         
-        let api = APIManager()
-        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=50/json", completion: didLoadData)
     }
     
     func didLoadData(videos:[Videos]) {
@@ -35,16 +33,39 @@ class MusicVideoTVC: UITableViewController {
         switch reachabilityStatus {
         case NOACCESS:
             view.backgroundColor = UIColor.red
-            //displayLbl.text = "No Internet Access"
-        case WIFI:
-            view.backgroundColor = UIColor.green
-            //displayLbl.text = "Reachable with WiFi"
-        case WWAN:
-            view.backgroundColor = UIColor.yellow
-            //displayLbl.text = "Reachable with Cellular"
+            
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "No Internet Access", message: "Please make sure you are connected to the Internet", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+                    print("Cancel")})
+                let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+                    print("Delete")})
+                let okAction = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                    print("Ok")})
+                
+                alert.addAction(okAction)
+                alert.addAction(cancelAction)
+                alert.addAction(deleteAction)
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+            
         default:
-            return
+            view.backgroundColor = UIColor.green
+            
+            if videos.count > 0 {
+                print("do not refresh API")
+            } else {
+                runAPI()
+            }
+            
         }
+    }
+    
+    func runAPI() {
+        let api = APIManager()
+        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=50/json", completion: didLoadData)
     }
     
     deinit {
