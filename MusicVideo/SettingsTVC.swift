@@ -27,6 +27,12 @@ class SettingsTVC: UITableViewController {
         tableView.alwaysBounceVertical = false
         
         touchID.isOn = UserDefaults.standard.bool(forKey: "SecSetting")
+        
+        if UserDefaults.standard.value(forKey: "APICNT") != nil {
+            let theValue = UserDefaults.standard.integer(forKey: "APICNT")
+            APICount.text = "\(Int(theValue))"
+            sliderCount.value = Float(theValue)
+        }
     }
     
     
@@ -38,6 +44,14 @@ class SettingsTVC: UITableViewController {
         } else {
             defaults.set(false, forKey: "SecSetting")
         }
+    }
+    
+    
+    @IBAction func sliderValueChanged(_ sender: UISlider) {
+        
+        let defaults = UserDefaults.standard
+        defaults.set(Int(sliderCount.value), forKey: "APICNT")
+        APICount.text = "\(Int(sliderCount.value))"
     }
     
     
