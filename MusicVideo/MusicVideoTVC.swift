@@ -88,6 +88,7 @@ class MusicVideoTVC: UITableViewController {
     
     private struct storyboard {
         static let cellReuseIdentifier = "cell"
+        static let segueIdentifier = "musicDetail"
     }
     
 
@@ -140,14 +141,16 @@ class MusicVideoTVC: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == storyboard.segueIdentifier {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let video = videos[indexPath.row]
+                let destinationVC = segue.destination as! MusicVideoDetailVC
+                destinationVC.videos = video
+            }
+        }
     }
-    */
 
 }
