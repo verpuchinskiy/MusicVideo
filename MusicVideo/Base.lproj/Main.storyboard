@@ -108,10 +108,10 @@
             </objects>
             <point key="canvasLocation" x="1046" y="105"/>
         </scene>
-        <!--SettingsTVC-->
+        <!--Settings-->
         <scene sceneID="YOx-tb-Bwb">
             <objects>
-                <tableViewController id="kar-3S-rHR" customClass="SettingsTVC" customModule="MusicVideo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Settings" id="kar-3S-rHR" customClass="SettingsTVC" customModule="MusicVideo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" id="Sk8-In-ND0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -185,6 +185,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cRA-Gu-fHP">
                                                     <rect key="frame" x="255" y="19" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="touchIdSecurity:" destination="kar-3S-rHR" eventType="valueChanged" id="6NI-ei-vWW"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
