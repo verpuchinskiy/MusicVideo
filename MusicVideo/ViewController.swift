@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     
     var videos = [Videos]()
+    var limit = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +23,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         reachabilityStatusChanged()
         
-        let api = APIManager()
-        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=50/json", completion: didLoadData)
+        //runAPI()
+        
     }
+    
+//    func getAPICount() {
+//        if UserDefaults.standard.value(forKey: "APICNT") != nil {
+//            let theValue = UserDefaults.standard.value(forKey: "APICNT") as! Int
+//            limit = theValue
+//        }
+//        
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "E, dd MMM yyy HH:mm:ss"
+//        let refreshDate = formatter.string(from: NSDate() as Date)
+//        
+//        
+//    }
+    
+//    func runAPI() {
+//        
+//        getAPICount()
+//        
+//        let api = APIManager()
+//        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=\(limit)/json", completion: didLoadData)
+//    }
     
     func didLoadData(videos:[Videos]) {
         

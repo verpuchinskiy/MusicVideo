@@ -11,6 +11,7 @@ import UIKit
 class MusicVideoTVC: UITableViewController {
 
     var videos = [Videos]()
+    var limit = 10
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,9 @@ class MusicVideoTVC: UITableViewController {
     func didLoadData(videos:[Videos]) {
         
         self.videos = videos
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.red]
+        title = "The iTunes Top \(limit) Music Videos"
         
         tableView.reloadData()
     }
@@ -63,9 +67,31 @@ class MusicVideoTVC: UITableViewController {
         }
     }
     
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        refreshControl?.endRefreshing()
+        runAPI()
+    }
+    
+    
+    func getAPICount() {
+        if UserDefaults.standard.value(forKey: "APICNT") != nil {
+            let theValue = UserDefaults.standard.value(forKey: "APICNT") as! Int
+            limit = theValue
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E, dd MMM yyyy HH:mm:ss"
+        let refreshDate = formatter.string(from: NSDate() as Date)
+        
+        refreshControl?.attributedTitle = NSAttributedString(string: "\(refreshDate)")
+    }
+    
     func runAPI() {
+        
+        getAPICount()
+        
         let api = APIManager()
-        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=200/json", completion: didLoadData)
+        api.loadData(urlString: "https://itunes.apple.com/us/rss/topmusicvideos/limit=\(limit)/json", completion: didLoadData)
     }
     
     deinit {
