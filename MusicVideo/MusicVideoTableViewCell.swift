@@ -10,7 +10,7 @@ import UIKit
 
 class MusicVideoTableViewCell: UITableViewCell {
     
-    var video: Videos? {
+    var video: Video? {
         didSet {
             updateCell()
         }
@@ -38,7 +38,7 @@ class MusicVideoTableViewCell: UITableViewCell {
         }
     }
     
-    func getVideoImage(video: Videos, imageView: UIImageView) {
+    func getVideoImage(video: Video, imageView: UIImageView) {
         
         DispatchQueue.global(qos: .default).async {
             let data = NSData(contentsOf: URL(string: video.vImageUrl)!)

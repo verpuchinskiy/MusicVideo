@@ -10,8 +10,8 @@ import UIKit
 
 class MusicVideoTVC: UITableViewController, UISearchResultsUpdating {
 
-    var videos = [Videos]()
-    var filteredSearch = [Videos]()
+    var videos = [Video]()
+    var filteredSearch = [Video]()
     let resultSearchController = UISearchController(searchResultsController: nil)
     var limit = 10
     
@@ -24,7 +24,7 @@ class MusicVideoTVC: UITableViewController, UISearchResultsUpdating {
         
     }
     
-    func didLoadData(videos:[Videos]) {
+    func didLoadData(videos:[Video]) {
         
         self.videos = videos
         
@@ -163,7 +163,7 @@ class MusicVideoTVC: UITableViewController, UISearchResultsUpdating {
         if segue.identifier == storyboard.segueIdentifier {
             if let indexPath = tableView.indexPathForSelectedRow {
                 
-                let video: Videos
+                let video: Video
                 
                 if resultSearchController.isActive {
                     video = filteredSearch[indexPath.row]
